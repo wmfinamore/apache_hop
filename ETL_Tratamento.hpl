@@ -40,6 +40,21 @@
       <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Filtra FRANCE</from>
+      <to>Dummy (do nothing)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra FRANCE</from>
+      <to>escolha campos</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>tratamento dado-1</from>
+      <to>Filtra FRANCE</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <transform>
     <name>Dummy (do nothing)</name>
@@ -93,6 +108,43 @@
     <GUI>
       <xloc>480</xloc>
       <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Filtra FRANCE</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+</conditions>
+        <function>=</function>
+        <leftvalue>country</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <name>constant</name>
+          <precision>-1</precision>
+          <text>FR</text>
+          <type>String</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>Dummy (do nothing)</send_false_to>
+    <send_true_to>escolha campos</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>272</yloc>
     </GUI>
   </transform>
   <transform>
@@ -439,10 +491,46 @@
     </GUI>
   </transform>
   <transform>
+    <name>escolha campos</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>country</name>
+        <rename>pais</rename>
+      </field>
+      <field>
+        <name>province</name>
+        <rename>provincia</rename>
+      </field>
+      <field>
+        <name>points</name>
+        <rename>pontos</rename>
+      </field>
+      <field>
+        <name>price</name>
+        <rename>preco</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>400</yloc>
+    </GUI>
+  </transform>
+  <transform>
     <name>tratamento dado-1</name>
     <type>ValueMapper</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>

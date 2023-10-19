@@ -55,6 +55,16 @@
       <to>Filtra FRANCE</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>escolha campos</from>
+      <to>sort france</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>sort france</from>
+      <to>group france</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <transform>
     <name>Dummy (do nothing)</name>
@@ -145,6 +155,64 @@
     <GUI>
       <xloc>304</xloc>
       <yloc>272</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>sort france</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>${java.io.tmpdir}</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>pais</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>provincia</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>pontos</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>preco</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>400</yloc>
     </GUI>
   </transform>
   <transform>
@@ -552,6 +620,52 @@
     <GUI>
       <xloc>304</xloc>
       <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>group france</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <add_linenr>N</add_linenr>
+    <all_rows>N</all_rows>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <aggregate>pontos</aggregate>
+        <subject>pontos</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>preco</aggregate>
+        <subject>preco</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>pais</name>
+      </field>
+      <field>
+        <name>provincia</name>
+      </field>
+    </group>
+    <ignore_aggregate>N</ignore_aggregate>
+    <linenr_fieldname/>
+    <prefix>grp</prefix>
+    <attributes/>
+    <GUI>
+      <xloc>656</xloc>
+      <yloc>400</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

@@ -45,6 +45,26 @@
       <to>Retira Nulo</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Retira Nulo</from>
+      <to>Nome e Sobrenome</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Nome e Sobrenome</from>
+      <to>separa minuto e periodo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>separa minuto e periodo</from>
+      <to>Identifica continente</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Identifica continente</from>
+      <to>Faixa ano modelo</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <transform>
     <name>Ajuste Campos</name>
@@ -127,7 +147,7 @@
         <in_stream_name>des_pais_origem</in_stream_name>
         <out_stream_name/>
         <trim_type>none</trim_type>
-        <lower_upper>none</lower_upper>
+        <lower_upper>upper</lower_upper>
         <padding_type>none</padding_type>
         <pad_char/>
         <pad_len/>
@@ -419,6 +439,88 @@
     </GUI>
   </transform>
   <transform>
+    <name>Identifica continente</name>
+    <type>ValueMapper</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <field_to_use>des_pais_origem</field_to_use>
+    <fields>
+      <field>
+        <source_value>BRAZIL</source_value>
+        <target_value>AMERICA DO SUL</target_value>
+      </field>
+      <field>
+        <source_value>CHINA</source_value>
+        <target_value>ASIA</target_value>
+      </field>
+      <field>
+        <source_value>JAPAN</source_value>
+        <target_value>ASIA</target_value>
+      </field>
+      <field>
+        <source_value>PORTUGAL</source_value>
+        <target_value>EUROPA</target_value>
+      </field>
+      <field>
+        <source_value>POLAND</source_value>
+        <target_value>EUROPA</target_value>
+      </field>
+    </fields>
+    <non_match_default>CONTINENTE INEXISTENTE</non_match_default>
+    <target_field>des_continente</target_field>
+    <attributes/>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>176</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Nome e Sobrenome</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <ConcatFields>
+      <removeSelectedFields>N</removeSelectedFields>
+      <targetFieldLength>30</targetFieldLength>
+      <targetFieldName>des_nome_completo</targetFieldName>
+    </ConcatFields>
+    <enclosure>"</enclosure>
+    <fields>
+      <field>
+        <length>-1</length>
+        <name>des_nome</name>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <type>String</type>
+      </field>
+      <field>
+        <length>-1</length>
+        <name>des_sobrenome</name>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <type>String</type>
+      </field>
+    </fields>
+    <separator> </separator>
+    <attributes/>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>64</yloc>
+    </GUI>
+  </transform>
+  <transform>
     <name>Retira AM</name>
     <type>ReplaceString</type>
     <description/>
@@ -444,6 +546,40 @@
     <attributes/>
     <GUI>
       <xloc>672</xloc>
+      <yloc>64</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Retira Nulo</name>
+    <type>IfNull</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>des_pais_origem</name>
+        <set_empty_string>N</set_empty_string>
+        <value>PAÍS NÃO CADASTRADO</value>
+      </field>
+      <field>
+        <name>mod_carro</name>
+        <set_empty_string>N</set_empty_string>
+        <value>MODELO NÃO CADASTRADO</value>
+      </field>
+    </fields>
+    <selectFields>Y</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <valuetypes>
+</valuetypes>
+    <attributes/>
+    <GUI>
+      <xloc>976</xloc>
       <yloc>64</yloc>
     </GUI>
   </transform>
@@ -513,8 +649,8 @@
     </GUI>
   </transform>
   <transform>
-    <name>Retira Nulo</name>
-    <type>IfNull</type>
+    <name>separa minuto e periodo</name>
+    <type>StringOperations</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -525,29 +661,73 @@
     </partitioning>
     <fields>
       <field>
-        <mask/>
-        <name>des_pais_origem</name>
-        <set_empty_string>N</set_empty_string>
-        <value>PAÍS NÃO CADASTRADO</value>
+        <in_stream_name>des_minuto_trat</in_stream_name>
+        <out_stream_name>inf_minuto</out_stream_name>
+        <trim_type>none</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>digits_only</digits>
+        <remove_special_characters>none</remove_special_characters>
       </field>
       <field>
-        <mask/>
-        <name>mod_carro</name>
-        <set_empty_string>N</set_empty_string>
-        <value>MODELO NÃO CADASTRADO</value>
+        <in_stream_name>des_minuto_trat</in_stream_name>
+        <out_stream_name>des_periodo</out_stream_name>
+        <trim_type>none</trim_type>
+        <lower_upper>none</lower_upper>
+        <padding_type>none</padding_type>
+        <pad_char/>
+        <pad_len/>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>remove_digits</digits>
+        <remove_special_characters>none</remove_special_characters>
       </field>
     </fields>
-    <replaceAllByValue/>
-    <replaceAllMask/>
-    <selectFields>Y</selectFields>
-    <selectValuesType>N</selectValuesType>
-    <setEmptyStringAll>N</setEmptyStringAll>
-    <valuetypes>
-</valuetypes>
     <attributes/>
     <GUI>
-      <xloc>976</xloc>
-      <yloc>64</yloc>
+      <xloc>1120</xloc>
+      <yloc>176</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Faixa ano modelo</name>
+    <type>NumberRange</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fallBackValue>unknow</fallBackValue>
+    <inputField>ano_carro</inputField>
+    <outputField>des_faixa_modelo</outputField>
+    <rules>
+      <rule>
+        <lower_bound/>
+        <upper_bound>1996</upper_bound>
+        <value>Velho</value>
+      </rule>
+      <rule>
+        <lower_bound>1996</lower_bound>
+        <upper_bound>2000</upper_bound>
+        <value>Conservado</value>
+      </rule>
+      <rule>
+        <lower_bound>2000</lower_bound>
+        <upper_bound/>
+        <value>Novo</value>
+      </rule>
+    </rules>
+    <attributes/>
+    <GUI>
+      <xloc>848</xloc>
+      <yloc>176</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

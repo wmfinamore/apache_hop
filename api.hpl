@@ -35,6 +35,16 @@
       <to>JSON output</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>JSON output</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Saída Dados</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <transform>
     <name>JSON input</name>
@@ -119,6 +129,19 @@
         <repeat>N</repeat>
       </field>
       <field>
+        <name>bairro</name>
+        <path>$.neighborhood</path>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
         <name>service</name>
         <path>$.service</path>
         <type>String</type>
@@ -134,6 +157,32 @@
       <field>
         <name>location_type</name>
         <path>$.location.type</path>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>longitude</name>
+        <path>$.location.coordinates.longitude</path>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>latitude</name>
+        <path>$.location.coordinates.latitude</path>
         <type>None</type>
         <format/>
         <currency/>
@@ -182,14 +231,6 @@
     <extension>json</extension>
     <fields>
       <field>
-        <element>endereco</element>
-        <name>endereco</name>
-      </field>
-      <field>
-        <element>result</element>
-        <name>result</name>
-      </field>
-      <field>
         <element>cep</element>
         <name>cep</name>
       </field>
@@ -206,12 +247,24 @@
         <name>street</name>
       </field>
       <field>
+        <element>bairro</element>
+        <name>bairro</name>
+      </field>
+      <field>
         <element>service</element>
         <name>service</name>
       </field>
       <field>
         <element>location_type</element>
         <name>location_type</name>
+      </field>
+      <field>
+        <element>longitude</element>
+        <name>longitude</name>
+      </field>
+      <field>
+        <element>latitude</element>
+        <name>latitude</name>
       </field>
     </fields>
     <fileAppended>Y</fileAppended>
@@ -273,6 +326,165 @@
     <attributes/>
     <GUI>
       <xloc>496</xloc>
+      <yloc>160</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Saída Dados</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>windows-1252</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>${PROJECT_HOME}/output/saida_campos.txt</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery/>
+    </file>
+    <fields>
+      <field>
+        <name>cep</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>state</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>city</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>street</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>service</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>location_type</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1152</xloc>
+      <yloc>160</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>cep</name>
+      </field>
+      <field>
+        <name>state</name>
+      </field>
+      <field>
+        <name>city</name>
+      </field>
+      <field>
+        <name>street</name>
+      </field>
+      <field>
+        <name>service</name>
+      </field>
+      <field>
+        <name>location_type</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1008</xloc>
       <yloc>160</yloc>
     </GUI>
   </transform>
